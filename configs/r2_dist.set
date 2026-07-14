@@ -1,0 +1,42 @@
+# Junos 'set' Commands for R2-DIST
+# Hostname & System Services
+set system host-name R2-DIST
+set system root-authentication plain-text-password-value "Juniper123!"
+set system services ssh root-login allow
+set system services ssh protocol-version v2
+set system services netconf ssh
+
+# NOC Automation User
+set system login user junos-admin class super-user authentication plain-text-password-value "Juniper123!"
+
+# Management Interface
+set interfaces fxp0 unit 0 family inet address 192.168.1.12/24
+
+# Loopback Interface
+set interfaces lo0 unit 0 family inet address 10.0.0.2/32
+
+# Transit Links
+# ge-0/0/0 to R1-CORE
+set interfaces ge-0/0/0 description "TO-R1-CORE:ge-0/0/0"
+set interfaces ge-0/0/0 unit 0 family inet address 10.10.12.2/30
+
+# ge-0/0/1 to R3-EDGE
+set interfaces ge-0/0/1 description "TO-R3-EDGE:ge-0/0/1"
+set interfaces ge-0/0/1 unit 0 family inet address 10.10.23.1/30
+
+# ge-0/0/2 Branch-A LAN
+set interfaces ge-0/0/2 description "BRANCH-A-LAN-GATEWAY"
+set interfaces ge-0/0/2 unit 0 family inet address 192.168.20.1/24
+
+# Routing Options
+set routing-options router-id 10.0.0.2
+set routing-options autonomous-system 65001
+
+# OSPF Area 0
+set protocols ospf reference-bandwidth 10g
+set protocols ospf area 0.0.0.0 interface ge-0/0/0.0 interface-type p2p
+set protocols ospf area 0.0.0.0 interface ge-0/0/0.0 metric 10
+set protocols ospf area 0.0.0.0 interface ge-0/0/1.0 interface-type p2p
+set protocols ospf area 0.0.0.0 interface ge-0/0/1.0 metric 10
+set protocols ospf area 0.0.0.0 interface ge-0/0/2.0 passive
+set protocols ospf area 0.0.0.0 interface lo0.0 passive

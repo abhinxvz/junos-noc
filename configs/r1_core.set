@@ -1,0 +1,52 @@
+# Junos 'set' Commands for R1-CORE
+# Hostname & System Services
+set system host-name R1-CORE
+set system root-authentication plain-text-password-value "Juniper123!"
+set system services ssh root-login allow
+set system services ssh protocol-version v2
+set system services netconf ssh
+
+# NOC Automation User
+set system login user junos-admin class super-user authentication plain-text-password-value "Juniper123!"
+
+# Management Interface
+set interfaces fxp0 unit 0 family inet address 192.168.1.11/24
+
+# Loopback Interface
+set interfaces lo0 unit 0 family inet address 10.0.0.1/32
+
+# Transit Links
+# ge-0/0/0 to R2-DIST
+set interfaces ge-0/0/0 description "TO-R2-DIST:ge-0/0/0"
+set interfaces ge-0/0/0 unit 0 family inet address 10.10.12.1/30
+
+# ge-0/0/1 to R3-EDGE
+set interfaces ge-0/0/1 description "TO-R3-EDGE:ge-0/0/0"
+set interfaces ge-0/0/1 unit 0 family inet address 10.10.13.1/30
+
+# ge-0/0/2 Data Center LAN
+set interfaces ge-0/0/2 description "DC-LAN-GATEWAY"
+set interfaces ge-0/0/2 unit 0 family inet address 192.168.10.1/24
+
+# ge-0/0/3 WAN Uplink
+set interfaces ge-0/0/3 description "WAN-ISP-UPLINK"
+set interfaces ge-0/0/3 unit 0 family inet address 198.51.100.2/30
+
+# Static Routing
+set routing-options static route 0.0.0.0/0 next-hop 198.51.100.1
+set routing-options router-id 10.0.0.1
+set routing-options autonomous-system 65001
+
+# Policy to originate default route into OSPF
+set policy-options policy-statement EXPORT-DEFAULT term 1 from route-filter 0.0.0.0/0 exact
+set policy-options policy-statement EXPORT-DEFAULT term 1 then accept
+
+# OSPF Area 0
+set protocols ospf reference-bandwidth 10g
+set protocols ospf export EXPORT-DEFAULT
+set protocols ospf area 0.0.0.0 interface ge-0/0/0.0 interface-type p2p
+set protocols ospf area 0.0.0.0 interface ge-0/0/0.0 metric 10
+set protocols ospf area 0.0.0.0 interface ge-0/0/1.0 interface-type p2p
+set protocols ospf area 0.0.0.0 interface ge-0/0/1.0 metric 10
+set protocols ospf area 0.0.0.0 interface ge-0/0/2.0 passive
+set protocols ospf area 0.0.0.0 interface lo0.0 passive
