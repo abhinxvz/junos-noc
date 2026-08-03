@@ -1,0 +1,67 @@
+devices:
+  - name: R1-CORE
+    host: 192.168.1.11
+    port: 830
+    username: junos-admin
+    password: Juniper123!
+    role: core-router
+    loopback: 10.0.0.1
+    expected_neighbors:
+      - 10.0.0.2
+      - 10.0.0.3
+    monitored_interfaces:
+      - ge-0/0/0
+      - ge-0/0/1
+      - ge-0/0/2
+      - ge-0/0/3
+      - lo0
+    critical_routes:
+      - 0.0.0.0/0
+      - 10.0.0.2/32
+      - 10.0.0.3/32
+      - 192.168.20.0/24
+      - 192.168.30.0/24
+
+  - name: R2-DIST
+    host: 192.168.1.12
+    port: 830
+    username: junos-admin
+    password: Juniper123!
+    role: distribution-router
+    loopback: 10.0.0.2
+    expected_neighbors:
+      - 10.0.0.1
+      - 10.0.0.3
+    monitored_interfaces:
+      - ge-0/0/0
+      - ge-0/0/1
+      - ge-0/0/2
+      - lo0
+    critical_routes:
+      - 0.0.0.0/0
+      - 10.0.0.1/32
+      - 10.0.0.3/32
+      - 192.168.10.0/24
+      - 192.168.30.0/24
+
+  - name: R3-EDGE
+    host: 192.168.1.13
+    port: 830
+    username: junos-admin
+    password: Juniper123!
+    role: edge-router
+    loopback: 10.0.0.3
+    expected_neighbors:
+      - 10.0.0.1
+      - 10.0.0.2
+    monitored_interfaces:
+      - ge-0/0/0
+      - ge-0/0/1
+      - ge-0/0/2
+      - lo0
+    critical_routes:
+      - 0.0.0.0/0
+      - 10.0.0.1/32
+      - 10.0.0.2/32
+      - 192.168.10.0/24
+      - 192.168.20.0/24

@@ -1,0 +1,25 @@
+health_thresholds:
+  max_cpu_percent: 80.0
+  max_memory_percent: 85.0
+  max_temperature_celsius: 65.0
+  min_uptime_hours: 1.0
+
+interface_rules:
+  require_oper_up: true
+  max_input_errors: 10
+  max_output_errors: 10
+  max_input_drops: 50
+  max_output_drops: 50
+
+routing_rules:
+  require_default_route: true
+  allowed_protocols:
+    - Direct
+    - Local
+    - OSPF
+    - Static
+
+ospf_rules:
+  required_state: "Full"
+  check_dr_bdr: false
+  max_neighbor_dead_time: 40
