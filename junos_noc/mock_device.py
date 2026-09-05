@@ -262,4 +262,4 @@ class MockDevice:
         if "show system uptime" in command:
             return f"Current time: 2026-10-15 17:00:00 UTC\nSystem booted: 2026-10-01 10:38:00 UTC\nUptime: 14 days"
         return f"Output for '{command}' on {self.name}"
-# Physical and logical interface operational generator
+# Routing table simulation for transit and LAN subnets
