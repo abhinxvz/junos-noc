@@ -78,3 +78,4 @@ class InterfaceCollector:
         if found is not None and found.text:
             return found.text.strip()
         return default
+# Error counter and drop rate extractor
