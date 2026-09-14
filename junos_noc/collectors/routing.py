@@ -71,3 +71,4 @@ class RoutingCollector:
         if found is not None and found.text:
             return found.text.strip()
         return default
+# Routing protocol distribution analytics
