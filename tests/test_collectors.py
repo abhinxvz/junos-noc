@@ -60,3 +60,4 @@ def test_ospf_collector(mock_device):
     assert ospf["all_full"] is True
     assert "10.0.0.2" in ospf["neighbor_ids"]
     assert "10.0.0.3" in ospf["neighbor_ids"]
+# Unit test validation for RIB and OSPF tables
