@@ -190,4 +190,4 @@ class FaultDetector:
                     })
 
         return faults
-# Physical link operational state validator
+# CRC and interface drop thresholds
