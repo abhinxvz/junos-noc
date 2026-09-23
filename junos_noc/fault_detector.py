@@ -190,4 +190,4 @@ class FaultDetector:
                     })
 
         return faults
-# CRC and interface drop thresholds
+# Prefix reachability and blackhole detection
