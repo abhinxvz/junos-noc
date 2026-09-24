@@ -190,4 +190,4 @@ class FaultDetector:
                     })
 
         return faults
-# Prefix reachability and blackhole detection
+# OSPF peer neighbor adjacency verifier
