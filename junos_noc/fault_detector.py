@@ -190,4 +190,4 @@ class FaultDetector:
                     })
 
         return faults
-# OSPF peer neighbor adjacency verifier
+# Operational runbook remediation advisor
