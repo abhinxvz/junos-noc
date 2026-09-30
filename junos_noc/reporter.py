@@ -188,4 +188,4 @@ class DiagnosticReporter:
             f.write("\n".join(lines))
 
         return filepath
-# Rich ANSI table styling for interfaces
+# OSPF and RIB dashboard visualizer
