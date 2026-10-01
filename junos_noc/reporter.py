@@ -188,4 +188,4 @@ class DiagnosticReporter:
             f.write("\n".join(lines))
 
         return filepath
-# OSPF and RIB dashboard visualizer
+# Color-coded NOC alert table formatter
