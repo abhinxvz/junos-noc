@@ -188,4 +188,4 @@ class DiagnosticReporter:
             f.write("\n".join(lines))
 
         return filepath
-# Color-coded NOC alert table formatter
+# Structured JSON diagnostics exporter
