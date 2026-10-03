@@ -188,4 +188,4 @@ class DiagnosticReporter:
             f.write("\n".join(lines))
 
         return filepath
-# Structured JSON diagnostics exporter
+# Markdown audit summary generator
