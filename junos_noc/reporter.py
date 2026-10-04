@@ -188,4 +188,4 @@ class DiagnosticReporter:
             f.write("\n".join(lines))
 
         return filepath
-# Markdown audit summary generator
+# Windows terminal CP1252/UTF-8 reconfigure
