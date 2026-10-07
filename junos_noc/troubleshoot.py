@@ -115,3 +115,4 @@ class NetworkTroubleshooter:
                 "status": "FAILED",
                 "error": str(e),
             }
+# Junos PyEZ ping RPC handler
