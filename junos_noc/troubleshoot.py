@@ -115,4 +115,4 @@ class NetworkTroubleshooter:
                 "status": "FAILED",
                 "error": str(e),
             }
-# Junos PyEZ ping RPC handler
+# Loopback mesh reachability matrix
