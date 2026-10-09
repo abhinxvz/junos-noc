@@ -115,4 +115,4 @@ class NetworkTroubleshooter:
                 "status": "FAILED",
                 "error": str(e),
             }
-# Loopback mesh reachability matrix
+# Link flap recovery and bounce logic
