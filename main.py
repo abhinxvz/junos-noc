@@ -229,4 +229,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-# Incident simulation and automated recovery flow
+# CLI flag normalization for live vs mock testing
