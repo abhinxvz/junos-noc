@@ -1,0 +1,603 @@
+{
+  "timestamp": "2026-10-15 17:55:15 UTC",
+  "devices": {
+    "R1-CORE": {
+      "health": {
+        "hostname": "R1-CORE",
+        "version": "23.2R1.14",
+        "model": "vJunos-router",
+        "serial_number": "JNPR-VLAB-R1-CORE",
+        "uptime": "14 days, 6 hours, 22 minutes",
+        "uptime_hours": 342.37,
+        "cpu_load_percent": 12.0,
+        "memory_percent": 42.0
+      },
+      "interfaces": {
+        "ge-0/0/0": {
+          "name": "ge-0/0/0",
+          "admin_status": "up",
+          "oper_status": "up",
+          "speed": "1Gbps",
+          "mtu": "1500",
+          "ip_addresses": [
+            "10.10.12.1/30"
+          ],
+          "input_errors": 0,
+          "output_errors": 0,
+          "input_drops": 0,
+          "output_drops": 0,
+          "is_up": true
+        },
+        "ge-0/0/1": {
+          "name": "ge-0/0/1",
+          "admin_status": "up",
+          "oper_status": "up",
+          "speed": "1Gbps",
+          "mtu": "1500",
+          "ip_addresses": [
+            "10.10.13.1/30"
+          ],
+          "input_errors": 0,
+          "output_errors": 0,
+          "input_drops": 0,
+          "output_drops": 0,
+          "is_up": true
+        },
+        "ge-0/0/2": {
+          "name": "ge-0/0/2",
+          "admin_status": "up",
+          "oper_status": "up",
+          "speed": "1Gbps",
+          "mtu": "1500",
+          "ip_addresses": [
+            "192.168.10.1/24"
+          ],
+          "input_errors": 0,
+          "output_errors": 0,
+          "input_drops": 0,
+          "output_drops": 0,
+          "is_up": true
+        },
+        "ge-0/0/3": {
+          "name": "ge-0/0/3",
+          "admin_status": "up",
+          "oper_status": "up",
+          "speed": "1Gbps",
+          "mtu": "1500",
+          "ip_addresses": [
+            "198.51.100.2/30"
+          ],
+          "input_errors": 0,
+          "output_errors": 0,
+          "input_drops": 0,
+          "output_drops": 0,
+          "is_up": true
+        },
+        "lo0": {
+          "name": "lo0",
+          "admin_status": "up",
+          "oper_status": "up",
+          "speed": "1Gbps",
+          "mtu": "1500",
+          "ip_addresses": [
+            "10.0.0.1/32"
+          ],
+          "input_errors": 0,
+          "output_errors": 0,
+          "input_drops": 0,
+          "output_drops": 0,
+          "is_up": true
+        }
+      },
+      "routing": {
+        "table": "inet.0",
+        "total_routes": 10,
+        "protocol_breakdown": {
+          "Static": 1,
+          "Direct": 4,
+          "OSPF": 5
+        },
+        "routes": [
+          {
+            "destination": "0.0.0.0/0",
+            "protocol": "Static",
+            "metric": "5",
+            "next_hop": "198.51.100.1",
+            "interface": "ge-0/0/3.0"
+          },
+          {
+            "destination": "10.0.0.1/32",
+            "protocol": "Direct",
+            "metric": "0",
+            "next_hop": "lo0.0",
+            "interface": "lo0.0"
+          },
+          {
+            "destination": "10.0.0.2/32",
+            "protocol": "OSPF",
+            "metric": "10",
+            "next_hop": "10.10.12.2",
+            "interface": "ge-0/0/0.0"
+          },
+          {
+            "destination": "10.0.0.3/32",
+            "protocol": "OSPF",
+            "metric": "10",
+            "next_hop": "10.10.13.2",
+            "interface": "ge-0/0/1.0"
+          },
+          {
+            "destination": "10.10.12.0/30",
+            "protocol": "Direct",
+            "metric": "0",
+            "next_hop": "ge-0/0/0.0",
+            "interface": "ge-0/0/0.0"
+          },
+          {
+            "destination": "10.10.13.0/30",
+            "protocol": "Direct",
+            "metric": "0",
+            "next_hop": "ge-0/0/1.0",
+            "interface": "ge-0/0/1.0"
+          },
+          {
+            "destination": "10.10.23.0/30",
+            "protocol": "OSPF",
+            "metric": "20",
+            "next_hop": "10.10.12.2",
+            "interface": "ge-0/0/0.0"
+          },
+          {
+            "destination": "192.168.10.0/24",
+            "protocol": "Direct",
+            "metric": "0",
+            "next_hop": "ge-0/0/2.0",
+            "interface": "ge-0/0/2.0"
+          },
+          {
+            "destination": "192.168.20.0/24",
+            "protocol": "OSPF",
+            "metric": "20",
+            "next_hop": "10.10.12.2",
+            "interface": "ge-0/0/0.0"
+          },
+          {
+            "destination": "192.168.30.0/24",
+            "protocol": "OSPF",
+            "metric": "20",
+            "next_hop": "10.10.13.2",
+            "interface": "ge-0/0/1.0"
+          }
+        ],
+        "destinations": [
+          "0.0.0.0/0",
+          "10.0.0.1/32",
+          "10.0.0.2/32",
+          "10.0.0.3/32",
+          "10.10.12.0/30",
+          "10.10.13.0/30",
+          "10.10.23.0/30",
+          "192.168.10.0/24",
+          "192.168.20.0/24",
+          "192.168.30.0/24"
+        ]
+      },
+      "ospf": {
+        "total_neighbors": 2,
+        "full_neighbors": 2,
+        "all_full": true,
+        "neighbors": [
+          {
+            "neighbor_id": "10.0.0.2",
+            "interface": "ge-0/0/0.0",
+            "state": "Full",
+            "address": "10.10.12.2",
+            "dead_time_seconds": "36",
+            "is_full": true
+          },
+          {
+            "neighbor_id": "10.0.0.3",
+            "interface": "ge-0/0/1.0",
+            "state": "Full",
+            "address": "10.10.13.2",
+            "dead_time_seconds": "38",
+            "is_full": true
+          }
+        ],
+        "neighbor_ids": [
+          "10.0.0.2",
+          "10.0.0.3"
+        ]
+      },
+      "faults": []
+    },
+    "R2-DIST": {
+      "health": {
+        "hostname": "R2-DIST",
+        "version": "23.2R1.14",
+        "model": "vJunos-router",
+        "serial_number": "JNPR-VLAB-R2-DIST",
+        "uptime": "14 days, 6 hours, 22 minutes",
+        "uptime_hours": 342.37,
+        "cpu_load_percent": 12.0,
+        "memory_percent": 42.0
+      },
+      "interfaces": {
+        "ge-0/0/0": {
+          "name": "ge-0/0/0",
+          "admin_status": "up",
+          "oper_status": "up",
+          "speed": "1Gbps",
+          "mtu": "1500",
+          "ip_addresses": [
+            "10.10.12.2/30"
+          ],
+          "input_errors": 0,
+          "output_errors": 0,
+          "input_drops": 0,
+          "output_drops": 0,
+          "is_up": true
+        },
+        "ge-0/0/1": {
+          "name": "ge-0/0/1",
+          "admin_status": "up",
+          "oper_status": "up",
+          "speed": "1Gbps",
+          "mtu": "1500",
+          "ip_addresses": [
+            "10.10.23.1/30"
+          ],
+          "input_errors": 0,
+          "output_errors": 0,
+          "input_drops": 0,
+          "output_drops": 0,
+          "is_up": true
+        },
+        "ge-0/0/2": {
+          "name": "ge-0/0/2",
+          "admin_status": "up",
+          "oper_status": "up",
+          "speed": "1Gbps",
+          "mtu": "1500",
+          "ip_addresses": [
+            "192.168.20.1/24"
+          ],
+          "input_errors": 0,
+          "output_errors": 0,
+          "input_drops": 0,
+          "output_drops": 0,
+          "is_up": true
+        },
+        "lo0": {
+          "name": "lo0",
+          "admin_status": "up",
+          "oper_status": "up",
+          "speed": "1Gbps",
+          "mtu": "1500",
+          "ip_addresses": [
+            "10.0.0.2/32"
+          ],
+          "input_errors": 0,
+          "output_errors": 0,
+          "input_drops": 0,
+          "output_drops": 0,
+          "is_up": true
+        }
+      },
+      "routing": {
+        "table": "inet.0",
+        "total_routes": 10,
+        "protocol_breakdown": {
+          "OSPF": 6,
+          "Direct": 4
+        },
+        "routes": [
+          {
+            "destination": "0.0.0.0/0",
+            "protocol": "OSPF",
+            "metric": "10",
+            "next_hop": "10.10.12.1",
+            "interface": "ge-0/0/0.0"
+          },
+          {
+            "destination": "10.0.0.1/32",
+            "protocol": "OSPF",
+            "metric": "10",
+            "next_hop": "10.10.12.1",
+            "interface": "ge-0/0/0.0"
+          },
+          {
+            "destination": "10.0.0.2/32",
+            "protocol": "Direct",
+            "metric": "0",
+            "next_hop": "lo0.0",
+            "interface": "lo0.0"
+          },
+          {
+            "destination": "10.0.0.3/32",
+            "protocol": "OSPF",
+            "metric": "10",
+            "next_hop": "10.10.23.2",
+            "interface": "ge-0/0/1.0"
+          },
+          {
+            "destination": "10.10.12.0/30",
+            "protocol": "Direct",
+            "metric": "0",
+            "next_hop": "ge-0/0/0.0",
+            "interface": "ge-0/0/0.0"
+          },
+          {
+            "destination": "10.10.13.0/30",
+            "protocol": "OSPF",
+            "metric": "20",
+            "next_hop": "10.10.12.1",
+            "interface": "ge-0/0/0.0"
+          },
+          {
+            "destination": "10.10.23.0/30",
+            "protocol": "Direct",
+            "metric": "0",
+            "next_hop": "ge-0/0/1.0",
+            "interface": "ge-0/0/1.0"
+          },
+          {
+            "destination": "192.168.10.0/24",
+            "protocol": "OSPF",
+            "metric": "20",
+            "next_hop": "10.10.12.1",
+            "interface": "ge-0/0/0.0"
+          },
+          {
+            "destination": "192.168.20.0/24",
+            "protocol": "Direct",
+            "metric": "0",
+            "next_hop": "ge-0/0/2.0",
+            "interface": "ge-0/0/2.0"
+          },
+          {
+            "destination": "192.168.30.0/24",
+            "protocol": "OSPF",
+            "metric": "20",
+            "next_hop": "10.10.23.2",
+            "interface": "ge-0/0/1.0"
+          }
+        ],
+        "destinations": [
+          "0.0.0.0/0",
+          "10.0.0.1/32",
+          "10.0.0.2/32",
+          "10.0.0.3/32",
+          "10.10.12.0/30",
+          "10.10.13.0/30",
+          "10.10.23.0/30",
+          "192.168.10.0/24",
+          "192.168.20.0/24",
+          "192.168.30.0/24"
+        ]
+      },
+      "ospf": {
+        "total_neighbors": 2,
+        "full_neighbors": 2,
+        "all_full": true,
+        "neighbors": [
+          {
+            "neighbor_id": "10.0.0.1",
+            "interface": "ge-0/0/0.0",
+            "state": "Full",
+            "address": "10.10.12.1",
+            "dead_time_seconds": "35",
+            "is_full": true
+          },
+          {
+            "neighbor_id": "10.0.0.3",
+            "interface": "ge-0/0/1.0",
+            "state": "Full",
+            "address": "10.10.23.2",
+            "dead_time_seconds": "37",
+            "is_full": true
+          }
+        ],
+        "neighbor_ids": [
+          "10.0.0.1",
+          "10.0.0.3"
+        ]
+      },
+      "faults": []
+    },
+    "R3-EDGE": {
+      "health": {
+        "hostname": "R3-EDGE",
+        "version": "23.2R1.14",
+        "model": "vJunos-router",
+        "serial_number": "JNPR-VLAB-R3-EDGE",
+        "uptime": "14 days, 6 hours, 22 minutes",
+        "uptime_hours": 342.37,
+        "cpu_load_percent": 12.0,
+        "memory_percent": 42.0
+      },
+      "interfaces": {
+        "ge-0/0/0": {
+          "name": "ge-0/0/0",
+          "admin_status": "up",
+          "oper_status": "up",
+          "speed": "1Gbps",
+          "mtu": "1500",
+          "ip_addresses": [
+            "10.10.13.2/30"
+          ],
+          "input_errors": 0,
+          "output_errors": 0,
+          "input_drops": 0,
+          "output_drops": 0,
+          "is_up": true
+        },
+        "ge-0/0/1": {
+          "name": "ge-0/0/1",
+          "admin_status": "up",
+          "oper_status": "up",
+          "speed": "1Gbps",
+          "mtu": "1500",
+          "ip_addresses": [
+            "10.10.23.2/30"
+          ],
+          "input_errors": 0,
+          "output_errors": 0,
+          "input_drops": 0,
+          "output_drops": 0,
+          "is_up": true
+        },
+        "ge-0/0/2": {
+          "name": "ge-0/0/2",
+          "admin_status": "up",
+          "oper_status": "up",
+          "speed": "1Gbps",
+          "mtu": "1500",
+          "ip_addresses": [
+            "192.168.30.1/24"
+          ],
+          "input_errors": 0,
+          "output_errors": 0,
+          "input_drops": 0,
+          "output_drops": 0,
+          "is_up": true
+        },
+        "lo0": {
+          "name": "lo0",
+          "admin_status": "up",
+          "oper_status": "up",
+          "speed": "1Gbps",
+          "mtu": "1500",
+          "ip_addresses": [
+            "10.0.0.3/32"
+          ],
+          "input_errors": 0,
+          "output_errors": 0,
+          "input_drops": 0,
+          "output_drops": 0,
+          "is_up": true
+        }
+      },
+      "routing": {
+        "table": "inet.0",
+        "total_routes": 10,
+        "protocol_breakdown": {
+          "OSPF": 6,
+          "Direct": 4
+        },
+        "routes": [
+          {
+            "destination": "0.0.0.0/0",
+            "protocol": "OSPF",
+            "metric": "10",
+            "next_hop": "10.10.13.1",
+            "interface": "ge-0/0/0.0"
+          },
+          {
+            "destination": "10.0.0.1/32",
+            "protocol": "OSPF",
+            "metric": "10",
+            "next_hop": "10.10.13.1",
+            "interface": "ge-0/0/0.0"
+          },
+          {
+            "destination": "10.0.0.2/32",
+            "protocol": "OSPF",
+            "metric": "10",
+            "next_hop": "10.10.23.1",
+            "interface": "ge-0/0/1.0"
+          },
+          {
+            "destination": "10.0.0.3/32",
+            "protocol": "Direct",
+            "metric": "0",
+            "next_hop": "lo0.0",
+            "interface": "lo0.0"
+          },
+          {
+            "destination": "10.10.12.0/30",
+            "protocol": "OSPF",
+            "metric": "20",
+            "next_hop": "10.10.13.1",
+            "interface": "ge-0/0/0.0"
+          },
+          {
+            "destination": "10.10.13.0/30",
+            "protocol": "Direct",
+            "metric": "0",
+            "next_hop": "ge-0/0/0.0",
+            "interface": "ge-0/0/0.0"
+          },
+          {
+            "destination": "10.10.23.0/30",
+            "protocol": "Direct",
+            "metric": "0",
+            "next_hop": "ge-0/0/1.0",
+            "interface": "ge-0/0/1.0"
+          },
+          {
+            "destination": "192.168.10.0/24",
+            "protocol": "OSPF",
+            "metric": "20",
+            "next_hop": "10.10.13.1",
+            "interface": "ge-0/0/0.0"
+          },
+          {
+            "destination": "192.168.20.0/24",
+            "protocol": "OSPF",
+            "metric": "20",
+            "next_hop": "10.10.23.1",
+            "interface": "ge-0/0/1.0"
+          },
+          {
+            "destination": "192.168.30.0/24",
+            "protocol": "Direct",
+            "metric": "0",
+            "next_hop": "ge-0/0/2.0",
+            "interface": "ge-0/0/2.0"
+          }
+        ],
+        "destinations": [
+          "0.0.0.0/0",
+          "10.0.0.1/32",
+          "10.0.0.2/32",
+          "10.0.0.3/32",
+          "10.10.12.0/30",
+          "10.10.13.0/30",
+          "10.10.23.0/30",
+          "192.168.10.0/24",
+          "192.168.20.0/24",
+          "192.168.30.0/24"
+        ]
+      },
+      "ospf": {
+        "total_neighbors": 2,
+        "full_neighbors": 2,
+        "all_full": true,
+        "neighbors": [
+          {
+            "neighbor_id": "10.0.0.1",
+            "interface": "ge-0/0/0.0",
+            "state": "Full",
+            "address": "10.10.13.1",
+            "dead_time_seconds": "36",
+            "is_full": true
+          },
+          {
+            "neighbor_id": "10.0.0.2",
+            "interface": "ge-0/0/1.0",
+            "state": "Full",
+            "address": "10.10.23.1",
+            "dead_time_seconds": "39",
+            "is_full": true
+          }
+        ],
+        "neighbor_ids": [
+          "10.0.0.1",
+          "10.0.0.2"
+        ]
+      },
+      "faults": []
+    }
+  }
+}
