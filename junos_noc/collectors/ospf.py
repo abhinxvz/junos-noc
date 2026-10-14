@@ -65,4 +65,3 @@ class OspfCollector:
         if found is not None and found.text:
             return found.text.strip()
         return default
-# Adjacency dead timer and neighbor state evaluator

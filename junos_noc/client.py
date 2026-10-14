@@ -85,4 +85,3 @@ class DeviceManager:
         except ConnectError as conn_err:
             logger.error("Failed to establish NETCONF session to %s: %s", host, conn_err)
             raise
-# NETCONF session timeout and authentication resilience

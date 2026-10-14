@@ -188,4 +188,3 @@ class DiagnosticReporter:
             f.write("\n".join(lines))
 
         return filepath
-# Windows terminal CP1252/UTF-8 reconfigure

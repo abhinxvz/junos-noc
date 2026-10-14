@@ -97,4 +97,3 @@ def test_detect_ospf_adjacency_down(baseline_rules, r1_spec):
     assert len(ospf_faults) == 1
     assert "10.0.0.3" in ospf_faults[0]["title"]
     assert "Init" in ospf_faults[0]["description"]
-# Fault detection coverage across simulated scenarios

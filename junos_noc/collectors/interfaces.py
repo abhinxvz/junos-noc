@@ -78,4 +78,3 @@ class InterfaceCollector:
         if found is not None and found.text:
             return found.text.strip()
         return default
-# Multi-unit IPv4 address mapping

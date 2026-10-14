@@ -190,4 +190,3 @@ class FaultDetector:
                     })
 
         return faults
-# Operational runbook remediation advisor

@@ -91,4 +91,3 @@ class HealthCollector:
             total_hours += float(mins_match.group(1)) / 60.0
 
         return round(total_hours, 2)
-# Regex duration normalization utility

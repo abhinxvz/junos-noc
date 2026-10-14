@@ -70,5 +70,3 @@ graph TD
   set system services netconf ssh
   set system login user junos-admin class super-user authentication plain-text-password
   ```
-
-<!-- Enterprise Topology Revision: October 2026 -->

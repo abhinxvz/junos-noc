@@ -100,5 +100,3 @@ ssh junos-admin@192.168.1.11
 Test-NetConnection -ComputerName 192.168.1.11 -Port 830
 ```
 Once reachable, you can execute the Python automation tool directly against your live lab!
-
-<!-- Hypervisor Deployment Notes: October 2026 -->
