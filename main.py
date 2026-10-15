@@ -9,7 +9,7 @@ import argparse
 import sys
 import yaml
 from datetime import datetime
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 
 # Ensure UTF-8 output encoding on Windows terminals
 if hasattr(sys.stdout, "reconfigure"):
@@ -40,14 +40,28 @@ def run_audit(
     mock: bool = True,
     scenario: str = "healthy",
     save_reports: bool = True,
+    host: Optional[str] = None,
+    user: Optional[str] = None,
+    password: Optional[str] = None,
+    port: int = 830,
 ) -> Dict[str, Any]:
-    """Runs end-to-end audit and fault detection on inventory devices."""
-    inventory = load_yaml("inventory/devices.yaml")
+    """Runs end-to-end audit and fault detection on inventory devices or a live router."""
     rules = load_yaml("rules/baseline_rules.yaml")
 
-    devices_to_check = inventory.get("devices", [])
-    if device_filter != "all":
-        devices_to_check = [d for d in devices_to_check if d["name"].lower() == device_filter.lower()]
+    if host:
+        devices_to_check = [{
+            "name": host,
+            "host": host,
+            "username": user or "junos-admin",
+            "password": password,
+            "port": port,
+            "role": "live-router",
+        }]
+    else:
+        inventory = load_yaml("inventory/devices.yaml")
+        devices_to_check = inventory.get("devices", [])
+        if device_filter != "all":
+            devices_to_check = [d for d in devices_to_check if d["name"].lower() == device_filter.lower()]
 
     if not devices_to_check:
         console.print(f"[bold red]Error: No devices found matching filter '{device_filter}'[/bold red]")
@@ -185,16 +199,73 @@ def run_simulation(fault_type: str = "fault_interface"):
     device.close()
 
 
+def test_connection(host: str, user: str, password: Optional[str] = None, port: int = 830):
+    """Verifies live NETCONF reachability, credentials, and retrieves router facts."""
+    console.print(Panel.fit(f"[bold cyan]TESTING LIVE JUNOS NETCONF: {host}:{port}[/bold cyan]"))
+    console.print(f"Connecting to [bold]{host}[/bold] as user [bold]{user}[/bold]...")
+
+    if not password:
+        import getpass
+        try:
+            if sys.stdin.isatty():
+                password = getpass.getpass(f"Enter password for {user}@{host}: ")
+        except Exception:
+            pass
+
+    try:
+        dev = DeviceManager.get_device(
+            host=host,
+            user=user,
+            password=password,
+            port=port,
+            mock=False,
+            device_name=host,
+            timeout=10,
+        )
+        facts = dev.facts or {}
+        console.print("[bold green][PASS] NETCONF Session established successfully![/bold green]")
+        console.print(f"  [cyan]Hostname:[/cyan] {facts.get('hostname', 'N/A')}")
+        console.print(f"  [cyan]Model:[/cyan] {facts.get('model', 'N/A')}")
+        console.print(f"  [cyan]Junos OS Version:[/cyan] {facts.get('version', 'N/A')}")
+        console.print(f"  [cyan]Serial Number:[/cyan] {facts.get('serialnumber', 'N/A')}")
+        console.print(f"  [cyan]Personality:[/cyan] {facts.get('personality', 'N/A')}")
+        console.print(f"  [cyan]System Uptime:[/cyan] {facts.get('uptime', 'N/A')}")
+        dev.close()
+        console.print("\n[bold green]Router is fully accessible. You can now measure full telemetry using:[/bold green]")
+        console.print(f"  [bold]python main.py audit --live --host {host} --user {user}[/bold]")
+    except Exception as e:
+        console.print(f"\n[bold red][FAIL] Connection failed: {e}[/bold red]")
+        console.print("\n[yellow]Troubleshooting Checklist:[/yellow]")
+        console.print("  1. Verify NETCONF service is configured on router:")
+        console.print("       set system services ssh")
+        console.print("       set system services netconf ssh")
+        console.print("       commit")
+        console.print(f"  2. Verify port {port} connectivity from this PC:")
+        console.print(f"       Test-NetConnection -ComputerName {host} -Port {port}")
+        console.print("  3. Verify username, password, or SSH key credentials.")
+
+
 def main():
     parser = argparse.ArgumentParser(description="JunosNOC: Network Automation & Fault Detection Engine")
     subparsers = parser.add_subparsers(dest="command", help="Operational Subcommands")
 
     # Subcommand: audit
     audit_parser = subparsers.add_parser("audit", help="Run comprehensive network audit and generate diagnostic reports")
-    audit_parser.add_argument("--device", default="all", help="Target device name or 'all'")
-    audit_parser.add_argument("--mock", action="store_true", default=True, help="Run in mock/offline mode (default: True)")
+    audit_parser.add_argument("--device", default="all", help="Target device name from inventory or 'all'")
+    audit_parser.add_argument("--host", help="Direct IP or hostname of a real live Junos router")
+    audit_parser.add_argument("--user", default="junos-admin", help="SSH/NETCONF username for live router")
+    audit_parser.add_argument("--password", help="SSH/NETCONF password for live router")
+    audit_parser.add_argument("--port", type=int, default=830, help="NETCONF port (default 830, or 22 for SSH subsystem)")
+    audit_parser.add_argument("--mock", action="store_true", default=None, help="Run in mock/offline mode")
     audit_parser.add_argument("--live", dest="mock", action="store_false", help="Connect to live routers via NETCONF port 830")
     audit_parser.add_argument("--scenario", default="healthy", choices=["healthy", "fault_interface", "fault_ospf", "fault_route", "fault_cpu"], help="Mock fault scenario to simulate")
+
+    # Subcommand: test
+    test_parser = subparsers.add_parser("test", help="Test live NETCONF connection and retrieve hardware facts")
+    test_parser.add_argument("--host", required=True, help="IP address or hostname of the live Junos router")
+    test_parser.add_argument("--user", default="junos-admin", help="SSH/NETCONF username")
+    test_parser.add_argument("--password", help="SSH/NETCONF password")
+    test_parser.add_argument("--port", type=int, default=830, help="NETCONF port (default 830, or 22 for SSH)")
 
     # Subcommand: detect
     detect_parser = subparsers.add_parser("detect", help="Run automated fault detection")
@@ -212,10 +283,21 @@ def main():
     args = parser.parse_args()
 
     if args.command == "audit" or args.command is None:
+        host = getattr(args, "host", None)
+        mock = getattr(args, "mock", None)
+        if host is not None and mock is None:
+            mock = False
+        elif mock is None:
+            mock = True
         scenario = getattr(args, "scenario", "healthy")
-        mock = getattr(args, "mock", True)
         device = getattr(args, "device", "all")
-        run_audit(device_filter=device, mock=mock, scenario=scenario)
+        user = getattr(args, "user", "junos-admin")
+        password = getattr(args, "password", None)
+        port = getattr(args, "port", 830)
+        run_audit(device_filter=device, mock=mock, scenario=scenario, host=host, user=user, password=password, port=port)
+
+    elif args.command == "test":
+        test_connection(host=args.host, user=args.user, password=args.password, port=args.port)
 
     elif args.command == "detect":
         run_audit(device_filter=args.device, mock=True, scenario=args.scenario)

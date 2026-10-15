@@ -92,7 +92,10 @@ class FaultDetector:
         self, device_name: str, device_spec: Dict[str, Any], ifaces: Dict[str, Dict[str, Any]]
     ) -> List[Dict[str, Any]]:
         faults = []
-        monitored = device_spec.get("monitored_interfaces", [])
+        monitored = device_spec.get("monitored_interfaces")
+        if monitored is None:
+            # Dynamically audit all active interfaces on live router
+            monitored = [k for k in ifaces.keys() if not k.startswith(("bme", "dsc", "gre", "ipip", "lsi", "mtun", "tap", "pfe", "pfh", "jsrv", "demux"))]
         iface_rules = self.rules.get("interface_rules", {})
         max_err = iface_rules.get("max_input_errors", 10)
 
@@ -164,7 +167,21 @@ class FaultDetector:
         expected_neighbors = set(device_spec.get("expected_neighbors", []))
         current_neighbors = {n["neighbor_id"]: n for n in ospf.get("neighbors", [])}
 
-        # Check for missing neighbors
+        if not expected_neighbors and current_neighbors:
+            # Check if any dynamically discovered neighbors are degraded
+            for nbr_id, nbr in current_neighbors.items():
+                if nbr.get("state") != "Full":
+                    faults.append({
+                        "fault_id": f"FAULT-OSPF-STATE-{device_name}-{nbr_id}",
+                        "device": device_name,
+                        "component": "OSPF",
+                        "severity": FaultSeverity.CRITICAL,
+                        "title": f"OSPF Neighbor {nbr_id} Stuck in {nbr['state']} State",
+                        "description": f"OSPF adjacency with {nbr_id} on {nbr['interface']} has state {nbr['state']} (expected 'Full').",
+                        "remediation": f"Run 'clear ospf neighbor {nbr['address']}' or check MTU mismatch and firewall packet filters on {nbr['interface']}.",
+                    })
+
+        # Check for missing expected neighbors
         for exp_id in expected_neighbors:
             if exp_id not in current_neighbors:
                 faults.append({

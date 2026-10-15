@@ -64,6 +64,29 @@ class HealthCollector:
         except Exception as e:
             logger.warning("Failed to parse get_system_uptime_information RPC for %s: %s", hostname, e)
 
+        # Fallback to get_route_engine_information if metrics missing (common on physical MX/SRX/EX hardware)
+        if cpu_load == 0.0 or memory_percent == 0.0:
+            try:
+                re_rpc = self.device.rpc.get_route_engine_information()
+                re_el = re_rpc.find(".//route-engine")
+                if re_el is not None:
+                    if cpu_load == 0.0:
+                        cpu_idle = re_el.findtext("cpu-idle")
+                        if cpu_idle:
+                            try:
+                                cpu_load = round(100.0 - float(cpu_idle), 1)
+                            except ValueError:
+                                pass
+                    if memory_percent == 0.0:
+                        mem_buf = re_el.findtext("memory-buffer-utilization")
+                        if mem_buf:
+                            try:
+                                memory_percent = float(mem_buf)
+                            except ValueError:
+                                pass
+            except Exception:
+                pass
+
         return {
             "hostname": hostname,
             "version": version,
